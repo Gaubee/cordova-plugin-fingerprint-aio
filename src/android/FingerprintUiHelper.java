@@ -122,10 +122,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
 
     @Override
     public void onAuthenticationFailed() {
-        int fingerprint_not_recognized_id = mContext.getResources()
-                .getIdentifier("fingerprint_not_recognized", "string", Fingerprint.packageName);
-        showError(mIcon.getResources().getString(
-                fingerprint_not_recognized_id));
+        showError(FingerprintAuthenticationDialogFragment.getResourcesString(mContext, "fingerprint_not_recognized"));
     }
 
     @Override
@@ -138,10 +135,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
                 .getIdentifier("success_color", "color", Fingerprint.packageName);
         mErrorTextView.setTextColor(
                 mErrorTextView.getResources().getColor(success_color_id, null));
-        int fingerprint_success_id = mContext.getResources()
-                .getIdentifier("fingerprint_success", "string", Fingerprint.packageName);
-        mErrorTextView.setText(
-                mErrorTextView.getResources().getString(fingerprint_success_id));
+        mErrorTextView.setText(FingerprintAuthenticationDialogFragment.getResourcesString(mContext, "fingerprint_success"));
         mIcon.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -170,10 +164,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
                     .getIdentifier("hint_color", "color", Fingerprint.packageName);
             mErrorTextView.setTextColor(
                     mErrorTextView.getResources().getColor(hint_color_id, null));
-            int fingerprint_hint_id = mContext.getResources()
-                    .getIdentifier("fingerprint_hint", "string", Fingerprint.packageName);
-            mErrorTextView.setText(
-                    mErrorTextView.getResources().getString(fingerprint_hint_id));
+            mErrorTextView.setText(FingerprintAuthenticationDialogFragment.getResourcesString(mContext, "fingerprint_hint"));
             int ic_fp_40px_id = mContext.getResources()
                     .getIdentifier("ic_fp_40px", "drawable", Fingerprint.packageName);
             mIcon.setImageResource(ic_fp_40px_id);

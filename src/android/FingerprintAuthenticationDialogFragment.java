@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.*;
 
 /**
  * A dialog which uses fingerprint APIs to authenticate the user, and falls back to password
@@ -61,6 +62,16 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     public FingerprintAuthenticationDialogFragment() {
     }
 
+    public static Map<String, String> customeResources = new HashMap<String, String>();
+    public static String getResourcesString(Context ctx, String key){
+        if (customeResources.containsKey(key)) {
+            return customeResources.get(key);
+        } else {
+            int string_res_id = ctx.getResources().getIdentifier(key, "string", Fingerprint.packageName);
+            return ctx.getString(string_res_id);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +93,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         disableBackup = args.getBoolean("disableBackup");
         Log.d(TAG, "disableBackup: " + disableBackup);
 
-        int fingerprint_auth_dialog_title_id = getResources()
-                .getIdentifier("fingerprint_auth_dialog_title", "string",
-                        Fingerprint.packageName);
-        getDialog().setTitle(getString(fingerprint_auth_dialog_title_id));
+        getDialog().setTitle(getResourcesString(getContext(), "fingerprint_auth_dialog_title"));
         int fingerprint_dialog_container_id = getResources()
                 .getIdentifier("fingerprint_dialog_container", "layout",
                         Fingerprint.packageName);
@@ -172,7 +180,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     private void goToBackup() {
         if(disableBackup)
         {
-            Fingerprint.onCancelled(); 
+            Fingerprint.onCancelled();
             dismiss();
         }
         else{
@@ -182,14 +190,10 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     }
 
     private void updateStage() {
-        int cancel_id = getResources()
-                .getIdentifier("fingerprint_cancel", "string", Fingerprint.packageName);
         switch (mStage) {
             case FINGERPRINT:
-                mCancelButton.setText(cancel_id);
-                int use_backup_id = getResources()
-                        .getIdentifier("fingerprint_use_backup", "string", Fingerprint.packageName);
-                mSecondDialogButton.setText(use_backup_id);
+                mCancelButton.setText(getResourcesString(getContext(), "fingerprint_cancel"));
+                mSecondDialogButton.setText(getResourcesString(getContext(), "fingerprint_use_backup"));
                 mFingerprintContent.setVisibility(View.VISIBLE);
                 break;
             case NEW_FINGERPRINT_ENROLLED:
@@ -200,11 +204,8 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
                 }
                 if (!mKeyguardManager.isKeyguardSecure()) {
                     // Show a message that the user hasn't set up a lock screen.
-                    int secure_lock_screen_required_id = getResources()
-                            .getIdentifier("secure_lock_screen_required", "string",
-                                    Fingerprint.packageName);
                     Toast.makeText(getContext(),
-                            getString(secure_lock_screen_required_id),
+                            getResourcesString(getContext(), "secure_lock_screen_required"),
                             Toast.LENGTH_LONG).show();
                     return;
                 }
