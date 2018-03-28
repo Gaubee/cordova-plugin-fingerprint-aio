@@ -18,6 +18,7 @@
 package de.niklasmerz.cordova.fingerprint;
 
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,19 +30,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.*;
+import fr.tvbarthel.lib.blurdialogfragment;
 
 /**
  * A dialog which uses fingerprint APIs to authenticate the user, and falls back to password
  * authentication if fingerprint is not available.
  */
-public class FingerprintAuthenticationDialogFragment extends DialogFragment
-        implements FingerprintUiHelper.Callback {
+public class FingerprintAuthenticationDialogFragment extends BlurDialogFragment
+implements FingerprintUiHelper.Callback {
 
     private static final String TAG = "FingerprintAuthDialog";
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
@@ -58,6 +61,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     FingerprintUiHelper.FingerprintUiHelperBuilder mFingerprintUiHelperBuilder;
 
     boolean disableBackup;
+    boolean disableCancel;
 
     public FingerprintAuthenticationDialogFragment() {
     }
@@ -78,7 +82,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
         // Do not create a new Fragment when the Activity is re-created such as orientation changes.
         setRetainInstance(true);
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Panel);
 
         mKeyguardManager = (KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE);
         mFingerprintUiHelperBuilder = new FingerprintUiHelper.FingerprintUiHelperBuilder(
@@ -93,6 +97,10 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         disableBackup = args.getBoolean("disableBackup");
         Log.d(TAG, "disableBackup: " + disableBackup);
 
+        disableCancel = args.getBoolean("disableCancel");
+        Log.d(TAG, "disableCancel: " + disableCancel);
+        setCancelable(!disableCancel);
+
         getDialog().setTitle(getResourcesString(getContext(), "fingerprint_auth_dialog_title"));
         int fingerprint_dialog_container_id = getResources()
                 .getIdentifier("fingerprint_dialog_container", "layout",
@@ -101,6 +109,9 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         int cancel_button_id = getResources()
                 .getIdentifier("cancel_button", "id", Fingerprint.packageName);
         mCancelButton = (Button) v.findViewById(cancel_button_id);
+        if (disableCancel) {
+            mCancelButton.setVisibility(View.GONE);
+        }
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

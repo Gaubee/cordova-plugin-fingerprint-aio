@@ -91,6 +91,7 @@ public class Fingerprint extends CordovaPlugin {
      * Options
      */
     private static boolean mDisableBackup = false;
+    private static boolean mDisableCancel = false;
 
     /**
      * Constructor.
@@ -191,6 +192,9 @@ public class Fingerprint extends CordovaPlugin {
             if (arg_object.has("disableBackup")) {
                 mDisableBackup = arg_object.getBoolean("disableBackup");
             }
+            if (arg_object.has("disableCancel")) {
+                mDisableCancel = arg_object.getBoolean("disableCancel");
+            }
 
             for(int i = 0;i < KEYS.size();i++){
                 String key = KEYS.get(i);
@@ -226,6 +230,7 @@ public class Fingerprint extends CordovaPlugin {
                             mFragment = new FingerprintAuthenticationDialogFragment();
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("disableBackup", mDisableBackup);
+                            bundle.putBoolean("disableCancel", mDisableCancel);
                             mFragment.setArguments(bundle);
 
                             if (initCipher()) {
