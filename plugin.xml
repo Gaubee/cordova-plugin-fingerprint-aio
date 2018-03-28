@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio-gaubee" version="1.4.1">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio-gaubee" version="1.4.2">
   <name>FingerprintAllInOne</name>
   <description>Cordova plugin to use fingerprint on Android and iOS</description>
   <license>MIT</license>
@@ -40,6 +40,7 @@
     <config-file target="AndroidManifest.xml" parent="/*">
       <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     </config-file>
+    <!-- <framework src="fr.tvbarthel.blurdialogfragment:lib:2.2.0" /> -->
 
     <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
     <source-file src="src/android/FingerprintAuthenticationDialogFragment.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>

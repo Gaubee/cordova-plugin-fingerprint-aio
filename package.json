@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-fingerprint-aio-gaubee",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Cordova plugin to use fingerprint authentication on Android and iOS",
   "cordova": {
     "id": "cordova-plugin-fingerprint-aio-gaubee",

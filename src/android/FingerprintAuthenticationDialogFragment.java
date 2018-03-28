@@ -37,13 +37,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.*;
-import fr.tvbarthel.lib.blurdialogfragment;
 
 /**
  * A dialog which uses fingerprint APIs to authenticate the user, and falls back to password
  * authentication if fingerprint is not available.
  */
-public class FingerprintAuthenticationDialogFragment extends BlurDialogFragment
+public class FingerprintAuthenticationDialogFragment extends DialogFragment
 implements FingerprintUiHelper.Callback {
 
     private static final String TAG = "FingerprintAuthDialog";
